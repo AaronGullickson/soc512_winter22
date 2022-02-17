@@ -1,0 +1,3 @@
+BobbiEugene,OR BlackFemale12
+Jim  Seattle,WAWhiteMale  11
+Mary Oakland,CAWhiteFemale16

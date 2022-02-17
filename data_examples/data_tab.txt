@@ -1,0 +1,4 @@
+name	location	race	gender	yrsed
+"Bobbi"	"Eugene,OR"	"Black"	"Female"	12
+"Jim"	"Seattle,WA"	"White"	"Male"	11
+"Mary"	"Oakland,CA"	"White"	"Female"	16
