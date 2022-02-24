@@ -137,8 +137,8 @@ theil_h <- enframe(theil_h, "statename", "theil_h")
 # tidyverse "lapply" approach
 # use group_by and then group_modify. A little weird syntax because 
 # the output of group_modify needs to be a tibble so we construct that tibble
-# in the argument
-tracts %>%
+# in the argument. ".x" is the tibble for a particular state.
+theil_h <- tracts %>%
   group_by(statename) %>%
   group_modify(~tibble(
     theilh = calculate_theilh(.x)
