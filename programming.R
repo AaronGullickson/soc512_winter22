@@ -83,8 +83,7 @@ calculate_theilh <- function(selected_tracts) {
   
   # aggregate state
   selected_state <- selected_tracts %>%
-    select(statename, white, black, latino, asian, indigenous, other) %>%
-    group_by(statename) %>%
+    select(white, black, latino, asian, indigenous, other) %>%
     summarize_all(sum) %>%
     mutate(total=white+latino+black+asian+indigenous+other,
            p_white=white/total, p_latino=latino/total, p_black=black/total,
@@ -134,3 +133,14 @@ tracts_list <- split(tracts, tracts$statename)
 theil_h <- sapply(tracts_list, calculate_theilh)
 
 theil_h <- enframe(theil_h, "statename", "theil_h")
+
+# tidyverse "lapply" approach
+# use group_by and then group_modify. A little weird syntax because 
+# the output of group_modify needs to be a tibble so we construct that tibble
+# in the argument
+tracts %>%
+  group_by(statename) %>%
+  group_modify(~tibble(
+    theilh = calculate_theilh(.x)
+  ))
+ 
