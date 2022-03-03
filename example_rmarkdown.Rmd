@@ -1,0 +1,47 @@
+---
+title: "Just a Test"
+author: "Aaron Gullickson"
+date: "3/3/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+load("example_data/movies.RData")
+```
+
+## How much money does each genre make?
+
+Here is a paragaph. Ipsem lopsum  Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum Ipsem lopsum 
+
+Here is another paragraph.
+
+Lets look at this first by a tapply command:
+
+```{r boxoffice-by-genre}
+sort(tapply(movies$BoxOffice, movies$Genre, mean)) %>%
+  enframe("Genre", "Mean Box Office Returns") %>%
+  kable(caption = "Mean box office returns by genre") %>%
+  kable_classic()
+```
+
+Now lets do something different!
+
+```{r boxoffice-genre-box, fig.cap="Distribution of box office returns by genre."}
+ggplot(movies, aes(x=reorder(Genre, BoxOffice, median), y=BoxOffice))+
+  geom_boxplot(fill="red")+
+  labs(x=NULL, y="box office returns in millions USD")+
+  theme_bw()+
+  coord_flip()
+```
+
+The graph shows that *animation* movies make the most money and *romance* and *drama* make the least. Also, movies that make more in total have much larger variance typically.
+
+
+
