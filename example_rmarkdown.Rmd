@@ -13,6 +13,7 @@ library(tidyverse)
 library(ggplot2)
 library(knitr)
 library(kableExtra)
+library(texreg)
 load("example_data/movies.RData")
 ```
 
@@ -42,6 +43,20 @@ ggplot(movies, aes(x=reorder(Genre, BoxOffice, median), y=BoxOffice))+
 ```
 
 The graph shows that *animation* movies make the most money and *romance* and *drama* make the least. Also, movies that make more in total have much larger variance typically.
+
+```{r models, results='asis'}
+
+model1 <- lm(BoxOffice~I(Runtime-90), data=movies)
+model2 <- update(model1, .~.+I(Year-2001))
+model3 <- update(model2, .~.+TomatoMeter)
+
+knitreg(list(model1, model2, model3),
+        caption="Linear models predicting box office returns",
+        caption.above=TRUE,
+        digits=3,
+        custom.coef.names=c("Intercept","Runtime (in minutes)",
+                            "Year of release","Tomato meter"))
+```
 
 
 
